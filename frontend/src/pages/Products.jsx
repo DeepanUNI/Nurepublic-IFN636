@@ -10,7 +10,7 @@ export default function Products({user}) {
 
     const loadProducts = async () => {
         try{
-            const data = await apiFetch('/produts');
+            const data = await apiFetch('/products');
             setProducts(data);
         } catch (err) {
           setError(err.message);
@@ -21,7 +21,7 @@ export default function Products({user}) {
           loadProducts();
     }, []);
 
-    const handlePurchase = async (productID) => {
+    const handlePurchase = async (productId) => {
         setPurchaseMessage('');
         try{
             await apiFetch('/orders/purchase', {method: 'POST', body: { productId }});
@@ -39,7 +39,7 @@ const handleAddProduct = async (e) =>{
             method: 'POST',
             body: { ...newProduct, price: Number(newProduct.price) },
     });
-    setNewProducts({ title: '', description: '', price: '', category: '' });
+    setNewProduct({ title: '', description: '', price: '', category: '' });
     loadProducts();
     } catch (err) {
       setError(err.message);

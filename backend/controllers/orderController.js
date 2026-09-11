@@ -36,7 +36,7 @@ exports.getMyLibrary = async(req,res) => {
     try{
         const orders = await Order.find({ user: req.user.id})
         .populate('product')
-        .sort({purchaseAt: -1});
+        .sort({ purchasedAt: -1 });
         res.status(200).json(orders);
       } catch (err) {
     res.status(500).json({ message: 'Failed to fetch library', error: err.message });

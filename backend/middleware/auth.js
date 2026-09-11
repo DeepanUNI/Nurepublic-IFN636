@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 // verifies the jwt and attached decoded user to req.user
-function requireAuth (req, res, nect ){
+function requireAuth (req, res, next ){
     const authHeader = req.headers.authorization;
     if(!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.status(401).json({message: 'Authentication token missing'});

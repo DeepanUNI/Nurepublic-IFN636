@@ -13,16 +13,21 @@ exports.getAllProducts = async (req, res) => {
 //view a single product//
 
 exports.getProductById = async (req, res) => {
-    try{
-        const product = await Product.findById(req.params.id);
-        if(!product) return res.ststus(404).json({ message: 'Product not found' });
-        res.status(200).json(product);
+  try {
+    const product = await Product.findById(req.params.id);
 
-    } catch (err) {
-        res.status(500).json({ message: 'Failed to fetch product', error: err.message });
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
     }
- };
 
+    res.status(200).json(product);
+  } catch (err) {
+    res.status(500).json({
+      message: 'Failed to fetch product',
+      error: err.message
+    });
+  }
+};
 //add product listing (admin only)
 
 exports.createProduct = async (req, res) => {
@@ -66,16 +71,20 @@ exports.updateProduct = async(req, res) => {
 
  //delete product listing (admin only)//
 
- exports.deleteProduct = async (req, res) => {
-    try {
-        const product = await Product.findByIdAndDelete(req.params.id);
-        if (!product) return res.status(404).json({ message: ' Product not found'});
-        res.status(500).json({ message: 'Failed to update product', error: err.message});
+exports.deleteProduct = async (req, res) => {
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id);
 
-    } catch (err) {
-        res.status(500).json({ message: 'failed to delet product', errpr:err.message});
-
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
     }
 
- };
+    res.status(200).json({ message: 'Product deleted' });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Failed to delete product',
+      error: err.message
+    });
+  }
+};
 

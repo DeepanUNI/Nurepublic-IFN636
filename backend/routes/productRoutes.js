@@ -17,6 +17,6 @@ router.get('/:id' , requireAuth, getProductById);
 
 //admin only//
 router.post('/', requireAuth, requireRole('admin'), createProduct);
-router.post('/:id', requireAuth, requireRole('admin'), updateProduct);
-router.post('/:id', requireAuth, requireRole('admin'), deleteProduct); 
+router.put('/:id', requireAuth, requireRole('admin'), updateProduct);
+router.delete('/:id', requireAuth, requireRole('admin'), deleteProduct); 
 module.exports= router;
