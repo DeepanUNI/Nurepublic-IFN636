@@ -20,7 +20,7 @@ export default function App() {
       <NavBar user={user} onLogout={() => setUser(null)} />
       <main>
         <Routes>
-          <Route path="/" element={<Navigate to="/products" replace />} />
+          <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login onLogin={setUser} />} />
           <Route

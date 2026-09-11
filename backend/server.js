@@ -12,7 +12,7 @@ const app= express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRouters);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 

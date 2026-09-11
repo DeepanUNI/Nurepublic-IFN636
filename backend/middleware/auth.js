@@ -1,4 +1,4 @@
-const jwt = reqire('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 // verifies the jwt and attached decoded user to req.user
 function requireAuth (req, res, nect ){

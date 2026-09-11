@@ -73,7 +73,7 @@ exports.updateProduct = async(req, res) => {
         res.status(500).json({ message: 'Failed to update product', error: err.message});
 
     } catch (err) {
-        res.ststus(500).json({ message: 'failed to delet product', errpr:err.message});
+        res.status(500).json({ message: 'failed to delet product', errpr:err.message});
 
     }
 
