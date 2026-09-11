@@ -26,7 +26,7 @@ exports.purchaseProduct = async (req, res) => {
       pricePaid: product.price,
     });
 
-    res.status(201).json({ message: 'Purchase successful', order });
+    res.status(201).json({ message: 'Order Purchased successfully ', order });
   } catch (err) {
     res.status(500).json({ message: 'Purchase failed', error: err.message });
   }
