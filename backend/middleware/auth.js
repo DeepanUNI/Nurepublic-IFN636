@@ -1,0 +1,1 @@
+const jwt = reqire('jsonwebtoken');
