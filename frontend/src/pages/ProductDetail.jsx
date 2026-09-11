@@ -23,7 +23,7 @@ export default function ProductDetail({ user }) {
     }
     };
 
-    if(!product) return <p>Loading...</p>:
+    if(!product) return <p>Loading...</p>;
 
     return(
         <div className="product-detail">
