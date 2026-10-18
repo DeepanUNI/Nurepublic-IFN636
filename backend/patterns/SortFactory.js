@@ -48,8 +48,8 @@ class SortFactory {
             return new PriceLowToHighSort();
         } else if (sortType == 'price_desc'){
             return new PriceHighToLowSort();
-        } else if (sortType == 'title_asc'){
-            return new TitleAtoZSort();
+        } else if (sortType === 'title_asc') {
+           return new TitleAToZSort();
         }else{
             throw new ValidationError('Unknown sort type: ${sortType');
         }
