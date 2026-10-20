@@ -1,0 +1,61 @@
+# Nu Republic CI/CD pipeline
+name: Nu Republic CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-build-deploy:
+    strategy:
+      matrix:
+        server: [ server1 ]          #change to [ server1, server2 ]
+    runs-on: [ self-hosted, "${{ matrix.server }}" ]
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install backend packages
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Run backend tests
+        working-directory: ./backend
+        run: npm test
+
+      - name: Install frontend packages and build
+        working-directory: ./frontend
+        env:
+          VITE_API_URL: /api         # browser calls the same host; Nginx forwards /api to port 5001
+        run: |
+          npm ci
+          npm run build
+
+      - name: Create backend .env from GitHub secrets
+        if: github.event_name == 'push'
+        working-directory: ./backend
+        run: |
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" > .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "PORT=5001" >> .env
+
+      - name: Restart the app with PM2
+        if: github.event_name == 'push'
+        env:
+          RUNNER_TRACKING_ID: ""     # stops GitHub from killing PM2 when the job ends
+        run: |
+          pm2 delete backend || true
+          pm2 delete frontend || true
+          cd backend
+          pm2 start server.js --name backend
+          cd ../frontend
+          pm2 serve dist 3000 --spa --name frontend
+          pm2 save

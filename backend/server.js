@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const os = require('os');
 
 const authRouters = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
@@ -21,6 +22,10 @@ app.use('/api/cart', cartRoutes);
 //404 handler fr unmatched routes//
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
+});
+
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'ok', server: os.hostname() });
 });
 
 const PORT = process.env.PORT || 5000;
