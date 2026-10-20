@@ -142,6 +142,65 @@ button.danger:hover { background: #fdecea; }
 }
 .footer span { color: var(--nr-accent-dark); font-weight: 600; }
 
+.cart-summary {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+.checkout-list {
+  list-style: none;
+  padding: 0;
+  max-width: 500px;
+}
+.checkout-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+/* ________________ Checkout form + admin orders */
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.checkout-form .form-row {
+  display: flex;
+  gap: 10px;
+}
+.checkout-form .form-row > * {
+  flex: 1;
+}
+.order-card {
+  border: 1px solid var(--nr-line, #ddd);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.order-customer p {
+  margin: 2px 0;
+}
+@media (max-width: 700px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ____________Search and sort_______*/
 .toolbar {
   display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center;
@@ -155,3 +214,11 @@ button.danger:hover { background: #fdecea; }
 }
 .toolbar select:focus { outline: none; border-color: var(--nr-accent); }
 .result-count { color: var(--nr-gray); font-size: 0.85rem; }
+
+/* ________________ FR04 filters */
+.toolbar .price-filter { width: 100px; flex: 0 0 100px; }
+.toolbar .clear-filters {
+  background: transparent; color: var(--nr-gray); border: 1px solid var(--nr-line);
+  padding: 0.6rem 0.9rem; border-radius: 8px; cursor: pointer;
+}
+.toolbar .clear-filters:hover { background: var(--nr-line); color: var(--nr-black); }

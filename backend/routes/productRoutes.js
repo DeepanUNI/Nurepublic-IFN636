@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const {requireAuth, requireRole} = require('../middleware/auth');
-const {validateSearch} = require('../middleware/searchMiddleware')
+const {validateSearch} = require('../middleware/searchmiddleware')
 
 
 const {
     getAllProducts,
+    getCategories,
     getProductById,
     createProduct,
     updateProduct,
@@ -15,6 +16,7 @@ const {
 
 //browse products//
 router.get('/', requireAuth, validateSearch, getAllProducts);
+router.get('/categories', requireAuth, getCategories); // must stay above '/:id'
 router.get('/:id' , requireAuth, getProductById);
 
 //admin only//

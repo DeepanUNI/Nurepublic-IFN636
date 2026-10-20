@@ -23,6 +23,15 @@ export default function ProductDetail({ user }) {
     }
     };
 
+    const handleAddToCart = async () => {
+    try {
+      await apiFetch('/cart', { method: 'POST', body: { productId: id } });
+      setMessage('Added to cart.');
+    } catch (err) {
+      setMessage(err.message);
+    }
+    };
+
     if(!product) return <p>Loading...</p>;
 
     return(
@@ -32,7 +41,12 @@ export default function ProductDetail({ user }) {
           <p>{product.description}</p>
           <p className="price">${product.price.toFixed(2)}</p>
           {message && <p className="info">{message}</p>}
-          {user?.role === 'user' && <button onClick={handlePurchase}>Purchase</button>}
+          {user?.role === 'user' && (
+            <>
+              <button onClick={handleAddToCart}>Add to cart</button>
+              <button onClick={handlePurchase}>Buy now</button>
+            </>
+          )}
     </div>
     );
 }

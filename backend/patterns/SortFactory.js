@@ -51,7 +51,7 @@ class SortFactory {
         } else if (sortType === 'title_asc') {
            return new TitleAToZSort();
         }else{
-            throw new ValidationError('Unknown sort type: ${sortType');
+            throw new ValidationError(`Unknown sort type: ${sortType}`);
         }
     }
 }

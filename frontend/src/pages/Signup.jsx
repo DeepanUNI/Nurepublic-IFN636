@@ -23,6 +23,7 @@ export default function Signup() {
     return(
         <div className="auth-page">
             <h2>Create Account</h2>
+            {error && <p className="error" style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={handleSubmit}>
         <input name="name" placeholder="Full name" value={form.name} onChange={handleChange} required />
         <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
@@ -39,6 +40,5 @@ export default function Signup() {
       </form>
       <p>Already have an account? <Link to="/login">Log in</Link></p>
         </div>
-
     );
   }

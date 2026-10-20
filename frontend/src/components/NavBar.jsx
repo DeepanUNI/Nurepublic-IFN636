@@ -18,6 +18,8 @@ export default function NavBar({ user, onLogout }) {
           <>
             <Link to="/products">Browse</Link>
             {user.role === 'user' && <Link to="/library">My Library</Link>}
+            {user.role === 'user' && <Link to="/cart">Cart</Link>}
+            {user.role === 'admin' && <Link to="/admin/orders">Orders</Link>}
             <span className="user-info">{user.name} ({user.role})</span>
             <button onClick={handleLogout}>Logout</button>
           </>

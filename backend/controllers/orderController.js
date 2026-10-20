@@ -42,3 +42,18 @@ exports.getMyLibrary = async(req,res) => {
     res.status(500).json({ message: 'Failed to fetch library', error: err.message });
       }
     };
+
+// checkout now lives in controllers/checkoutController.js (class-based)
+
+// GET /api/orders/all — every order from every user (admin only)
+exports.getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find()
+      .populate('user', 'name email')              // only these fields — never the password hash
+      .populate('product', 'title price category')
+      .sort({ createdAt: -1 });                    // newest first
+    res.status(200).json(orders);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch orders', error: err.message });
+  }
+};

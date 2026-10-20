@@ -8,6 +8,9 @@ import Login from './pages/Login';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import MyLibrary from './pages/MyLibrary';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import AdminOrders from './pages/AdminOrders';
 
 export default function App() {
   const [user, setUser] = useState(() => {
@@ -44,6 +47,30 @@ export default function App() {
             element={
               <ProtectedRoute user={user}>
                 <MyLibrary />
+              </ProtectedRoute>
+            }
+          />
+                    <Route
+            path="/cart"
+            element={
+              <ProtectedRoute user={user}>
+                <Cart />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute user={user}>
+                <Checkout />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/orders"
+            element={
+              <ProtectedRoute user={user}>
+                {user?.role === 'admin' ? <AdminOrders /> : <Navigate to="/products" replace />}
               </ProtectedRoute>
             }
           />

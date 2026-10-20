@@ -19,6 +19,16 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
+// FR04: list of categories for the filter dropdown
+exports.getCategories = async (req, res) => {
+  try {
+    const categories = await Product.distinct('category');
+    res.status(200).json(categories.sort((a, b) => a.localeCompare(b)));
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch categories', error: err.message });
+  }
+};
+
 //view a single product//
 
 exports.getProductById = async (req, res) => {

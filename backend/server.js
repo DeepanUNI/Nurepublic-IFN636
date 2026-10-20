@@ -6,6 +6,7 @@ const cors = require('cors');
 const authRouters = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 
 const app= express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use('/api/auth', authRouters);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/cart', cartRoutes);
 
 //404 handler fr unmatched routes//
 app.use((req, res) => {
