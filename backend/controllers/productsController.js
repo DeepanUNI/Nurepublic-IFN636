@@ -1,11 +1,20 @@
 const Product = require('../models/Product');
+const { SortFactory } = require('../patterns/SortFactory');
+const { ValidationError } = require('../errors/AppError');
+
 
 //view all products 
+// uses the sort function
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find().sort({ createdAt: -1 });
+    const sorter = SortFactory.getSort(req.query.sort || 'newest');   // Factory pattern
+
+    const products = await Product.find(req.searchFilter || {}).sort(sorter.getSortOrder());
     res.status(200).json(products);
   } catch (err) {
+    if (err instanceof ValidationError) {
+      return res.status(400).json({ message: err.message });  // e.g. unknown sort type
+    }
     res.status(500).json({ message: 'Failed to fetch products', error: err.message });
   }
 };
@@ -62,7 +71,7 @@ exports.updateProduct = async(req, res) => {
             runValidators: true,
 
         });
-        if (!product) return res.ststus(404).json({ message : 'Product not found'});
+        if (!product) return res.status(404).json({ message : 'Product not found'});
         res.status(200).json({ message: 'Product updated', product });
     } catch (err) {
         res.status(500).json({ message: 'Failed to update product', error: err.message });

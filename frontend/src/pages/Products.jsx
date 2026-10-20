@@ -2,16 +2,40 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiFetch } from '../api';
 
+const SORT_OPTIONS = [
+  { value: 'newest', label: 'Newest first' },
+  { value: 'price_asc', label: 'Price: low to high' },
+  { value: 'price_desc', label: 'Price: high to low' },
+  { value: 'title_asc', label: 'Title: A to Z' },
+];
+
 export default function Products({user}) {
     const [products, setProducts] = useState([]);
     const [error, setError] = useState('');
     const [newProduct, setNewProduct] = useState({ title: '', description: '', price: '', category: '' });
     const [purchaseMessage, setPurchaseMessage] = useState('');
 
-    const loadProducts = async () => {
+
+    // New search and sort//
+        const [search, setSearch] = useState('');
+        const [debouncedSearch, setDebouncedSearch] = useState('');
+        const [sort, setSort] = useState('newest');
+
+        useEffect(() => {
+        const timer = setTimeout(() => setDebouncedSearch(search), 300);
+        return () => clearTimeout(timer);
+    }, [search]);
+
+
+const loadProducts = async () => {
         try{
-            const data = await apiFetch('/products');
+            // NEW...... send search + sort to the backend
+            const params = new URLSearchParams();
+            if (debouncedSearch.trim()) params.set('search', debouncedSearch.trim());
+            params.set('sort', sort);
+            const data = await apiFetch(`/products?${params.toString()}`);
             setProducts(data);
+            setError('');
         } catch (err) {
           setError(err.message);
         }
@@ -19,7 +43,8 @@ export default function Products({user}) {
 
     useEffect(() => {
           loadProducts();
-    }, []);
+    
+    }, [debouncedSearch, sort]); // NEW: reload when search or sort changes
 
     const handlePurchase = async (productId) => {
         setPurchaseMessage('');
@@ -101,8 +126,28 @@ return (
           </div>
         )}
 
+        {/* Assessment 2   search& sort toolbar */}
+        <div className="toolbar">
+          <input
+            type="search"
+            placeholder="Search by title, description or category"
+            value={search}
+            maxLength={100}
+            onChange={(e) => setSearch(e.target.value)}
+            aria-label="Search products"
+          />
+          <select value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort products">
+            {SORT_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </select>
+          <span className="result-count">{products.length} result{products.length === 1 ? '' : 's'}</span>
+        </div>
+
         <div className="product-grid">
-          {products.length === 0 && <p>No products listed yet.</p>}
+          {products.length === 0 && (
+            <p>{debouncedSearch ? `No products match "${debouncedSearch}".` : 'No products listed yet.'}</p>
+          )}
           {products.map((p) => (
             <div className="product-card" key={p._id}>
               <h3><Link to={`/products/${p._id}`}>{p.title}</Link></h3>
@@ -121,9 +166,4 @@ return (
       </>
 
 );
-
-
-
-
-    }
-    
+ }

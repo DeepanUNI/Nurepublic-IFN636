@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const {requireAuth, requireRole} = require('../middleware/auth');
+const {validateSearch} = require('../middleware/searchMiddleware')
+
 
 const {
     getAllProducts,
@@ -12,7 +14,7 @@ const {
 } = require('../controllers/productsController');
 
 //browse products//
-router.get('/', requireAuth, getAllProducts);
+router.get('/', requireAuth, validateSearch, getAllProducts);
 router.get('/:id' , requireAuth, getProductById);
 
 //admin only//
