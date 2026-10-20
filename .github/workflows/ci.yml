@@ -3,9 +3,9 @@ name: Nu Republic CI/CD
 
 on:
   push:
-    branches: [ main ]
+      branches: [ main, A2_Final ]
   pull_request:
-    branches: [ main ]
+      branches: [ main, A2_Final ]
 
 jobs:
   test-build-deploy:
